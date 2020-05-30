@@ -31,7 +31,7 @@
 
     <div class="form">
       <label for="guessField">数字の予想：</label><input type="text" id="guessField" class="guessField">
-      <input type="submit" value="Submit guess" class="guessSubmit">
+      <input type="submit" value="チャレンジ" class="guessSubmit">
     </div>
 
     <div class="resultParas">
@@ -65,6 +65,7 @@
         if (userGuess === randomNum) {
           lastResult.textContent = '正解です🎉';
           lastResult.style.backgroundColor = 'green';
+          lastResult.style.color = 'white';
           lowOrHi.textContent = '';
           setGameOver();
         }
@@ -86,6 +87,11 @@
         guessField.focus();
       };
 
+      guessField.addEventListener('keydown', (e) => {
+        if (e.keyCode === 13) {
+          checkGuess();
+        };
+      });
       guessSubmit.addEventListener('click', checkGuess);
 
       // ゲームオーバーの処理
