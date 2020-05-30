@@ -30,7 +30,7 @@
     <p>1~100のどれか1つの整数が正解になります。10回以内に正解の数字を見つけよう</p>
 
     <div class="form">
-      <label for="guessField">Enter a guess: </label><input type="text" id="guessField" class="guessField">
+      <label for="guessField">数字の予想：</label><input type="text" id="guessField" class="guessField">
       <input type="submit" value="Submit guess" class="guessSubmit">
     </div>
 
@@ -54,9 +54,70 @@
       let resetButton;
 
       const checkGuess = () => {
-        alert('ここに好きな文字を入れてください');
+        let userGuess = Number(guessField.value);
+        // 前回の予想を表示する
+        if (guessCount === 1) {
+          guesses.textContent = '前回の予想: ';
+        }
+        guesses.textContent += userGuess + ' ';
+
+        // ゲームの結果に対するフィードバック
+        if (userGuess === randomNum) {
+          lastResult.textContent = '正解です🎉';
+          lastResult.style.backgroundColor = 'green';
+          lowOrHi.textContent = '';
+          setGameOver();
+        }
+        else if (guessCount === 10) {
+          lastResult.textContent = 'ゲームオーバーだよ😜';
+          lastResult.style.color = 'red';
+          setGameOver();
+        }
+        else {
+          lastResult.textContent = '惜しい〜🤣';
+          lastResult.style.color = 'red';
+          // () を付けないと実行されてしまう...？
+          userGuess < randomNum ? (lowOrHi.textContent = 'ヒント：もうちょっと大きいよ👍🏿') : (lowOrHi.textContent = 'ヒント：もうちょっと小さいよ👀')
+        }
+
+        // ユーザーが数字を入力した後の処理
+        guessCount ++;
+        guessField.value = '';
+        guessField.focus();
       };
 
+      guessSubmit.addEventListener('click', checkGuess);
+
+      // ゲームオーバーの処理
+      const setGameOver = () => {
+        guessField.disabled = true;
+        guessSubmit.disabled = true;
+        resetButton = createElement('button');
+        resetButton.textContent = ('リセットする');
+        document.body.appendChild(resetButton);
+        resetButton.addEventListener('click', resetGame);
+      }
+
+      // ゲームのリセットの処理
+      const resetGame = () => {
+        guessCount = 1;
+
+        // 前回までの情報を削除する
+        const resetParas = document.querySelectorAll('resultParas p');
+        for (let i = 0 ; i < resetParas.length ; i++) {
+          resetParas[i].textContent = ''
+        }
+        resetButton.parentNode.removeChild(resetButton);
+
+        // 設定を初期化する
+        guessSubmit.disabled = false;
+        guessSubmit.disabled = false;
+        guessField.value = '';
+        guessField.focus();
+
+        // 新しくランダムな整数を生成する
+        randomNum = Math.floor(Math.random() * 100) + 1;
+      }
 
     </script>
   </body>
