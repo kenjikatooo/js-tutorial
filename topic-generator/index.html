@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>話題ジェネレータースペシャル</title>
+
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      body {
+        width: 50%;
+        max-width: 800px;
+        min-width: 480px;
+        margin: 0 auto;
+      }
+
+      .lastResult {
+        color: white;
+        padding: 3px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>話題ジェネレータースペシャル</h1>
+
+    <p>ボタンを押して話題を見つけよう</p>
+
+    <div class="form">
+      <input type="submit" value="話題をさがす" class="guessSubmit">
+    </div>
+
+    <div class="resultParas">
+      <p class="guesses"></p>
+      <p class="lastResult"></p>
+      <p class="lowOrHi"></p>
+    </div>
+
+    <script>
+      // ランダムな整数を作成する (Math.floorが整数化、Math.randomが0-1の間の少数をランダムに出すので、100を出すために +1を行う)
+      let randomNum = Math.floor(Math.random() * 10);
+      const guessSubmit = document.querySelector('.guessSubmit');
+      const guesses = document.querySelector('.guesses');
+
+      // 話題に関してのデータ
+      const data = [
+        {topic: "まんねんくんの第一印象"},
+        {topic: "まんねんくんとの思い出"},
+        {topic: "まんねんくんの「いいやつだな〜」ポイント"},
+        {topic: "まんねんくんの第一印象"},
+        {topic: "まんねんくんの未来予想"},
+        {topic: "まんねんくんのすごいところ"},
+        {topic: "まんねんくんの意外だったところ"},
+        {topic: "まんねんくんの素敵なところ"},
+        {topic: "まんねんくんのalmaらしいところ"},
+        {topic: "まんねんくんのおしゃれなところ"}
+      ];
+
+      const generateTopic = () => {
+        // 話題を表示する
+        guesses.textContent = data[randomNum]?.topic
+
+        // 新しい整数を生成
+        new_randomNum = Math.floor(Math.random() * 10);
+        // 生成したものが前のものと被っていたら、違う数字を生成
+        if (randomNum === new_randomNum) {
+          const number_array = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+          const number_array_without_old = number_array.filter(n => n !== randomNum);
+          new_randomNum = number_array_without_old[Math.floor(Math.random() * number_array_without_old.length)]
+        }
+        randomNum = new_randomNum;
+      };
+
+      // キーボードでの操作
+      // guessField.addEventListener('keydown', (e) => {
+      //   if (e.keyCode === 13) {
+      //     generateTopic();
+      //   };
+      // });
+      guessSubmit.addEventListener('click', generateTopic);
+
+    </script>
+  </body>
+</html>
